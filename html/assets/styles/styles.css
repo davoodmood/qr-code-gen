@@ -1,0 +1,639 @@
+html {
+  /* color: #222; */
+  font-size: 1em;
+  line-height: 1.4;
+}
+
+/*
+   * Remove text-shadow in selection highlight:
+   * https://twitter.com/miketaylr/status/12228805301
+   *
+   * Customize the background color to match your design.
+   */
+
+::-moz-selection {
+  background: #b3d4fc;
+  text-shadow: none;
+}
+
+::selection {
+  background: #b3d4fc;
+  text-shadow: none;
+}
+
+/*
+   * A better looking default horizontal rule
+   */
+
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 1em 0;
+  padding: 0;
+}
+
+/*
+   * Remove the gap between audio, canvas, iframes,
+   * images, videos and the bottom of their containers:
+   * https://github.com/h5bp/html5-boilerplate/issues/440
+   */
+
+audio,
+canvas,
+iframe,
+img,
+svg,
+video {
+  vertical-align: middle;
+}
+
+/*
+   * Remove default fieldset styles.
+   */
+
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+/*
+   * Allow only vertical resizing of textareas.
+   */
+
+textarea {
+  resize: vertical;
+}
+
+/* ==========================================================================
+     Author's custom styles
+     ========================================================================== */
+
+/* ==========================================================================
+     Helper classes
+     ========================================================================== */
+
+/*
+   * Hide visually and from screen readers
+   */
+
+.hidden,
+[hidden] {
+  display: none !important;
+}
+
+/*
+   * Hide only visually, but have it available for screen readers:
+   * https://snook.ca/archives/html_and_css/hiding-content-for-accessibility
+   *
+   * 1. For long content, line feeds are not interpreted as spaces and small width
+   *    causes content to wrap 1 word per line:
+   *    https://medium.com/@jessebeach/beware-smushed-off-screen-accessible-text-5952a4c2cbfe
+   */
+
+.visually-hidden {
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+  /* 1 */
+}
+
+/*
+   * Extends the .visually-hidden class to allow the element
+   * to be focusable when navigated to via the keyboard:
+   * https://www.drupal.org/node/897638
+   */
+
+.visually-hidden.focusable:active,
+.visually-hidden.focusable:focus {
+  clip: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: static;
+  white-space: inherit;
+  width: auto;
+}
+
+/*
+   * Hide visually and from screen readers, but maintain layout
+   */
+
+.invisible {
+  visibility: hidden;
+}
+
+/*
+   * Clearfix: contain floats
+   *
+   * The use of `table` rather than `block` is only necessary if using
+   * `::before` to contain the top-margins of child elements.
+   */
+
+.clearfix::before,
+.clearfix::after {
+  content: "";
+  display: table;
+}
+
+.clearfix::after {
+  clear: both;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.stacked {
+  display: grid;
+}
+
+.stacked > * {
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+}
+
+/* ==========================================================================
+     Fonts
+     ========================================================================== */
+
+@font-face {
+  font-family: "RoyalSignage";
+  src: url(../fonts/RoyalSignage-Regular.ttf);
+}
+@font-face {
+  font-family: "constantia";
+  src: url(../fonts/constan.ttf);
+}
+/* ==========================================================================
+     Main Styles
+     ========================================================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html:focus-within {
+  scroll-behavior: smooth;
+}
+/* html {
+  background: hsla(27, 50%, 75%, 0.7);
+} */
+
+body {
+  position: relative;
+  display: grid;
+  font-family: "constantia", "Roboto Flex", sans-serif;
+  font-size: medium;
+  background-color: hsl(30, 45%, 85%);
+  background-image: url(../image/concrete-wall.png);
+  /* background-size: contain; */
+  background-repeat: repeat;
+  background-blend-mode: normal;
+  min-height: 100vh;
+  text-rendering: optimizeSpeed;
+  line-height: 1.2;
+}
+/* body::before {
+  content: '';
+  background: hsla(27, 50%, 75%, 1);
+  position: absolute;
+  inset: 0; */
+/* } */
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: "RoyalSignage", "Cabin", Arial, Helvetica, sans-serif;
+}
+
+a:not([class]) {
+  text-decoration-skip-ink: auto;
+}
+
+ul[role="list"],
+ol[role="list"] {
+  list-style: none;
+}
+
+ul,
+ol {
+  list-style-type: none;
+}
+
+img,
+picture {
+  max-width: 100%;
+  display: block;
+}
+
+div.container {
+  display: grid;
+  /* margin: 0 auto; */
+  align-items: center;
+  justify-content: center;
+  grid-template-rows: auto;
+  padding: 1rem;
+  max-width: 100rem;
+  /* min-height: 100vh; */
+  margin-inline: auto;
+  padding-inline: 2rem;
+}
+
+.titles.mobile-only {
+  display: none;
+}
+
+h1 {
+  font-size: 2.25rem;
+}
+
+h1 span {
+  font-size: 1.7rem;
+}
+
+h2 {
+  font-size: 1.5rem;
+}
+
+/* ==========================================================================
+     Header
+     ========================================================================== */
+header {
+  display: grid;
+  align-items: center;
+}
+
+header nav {
+  display: grid;
+  grid-template-columns: 1fr 4fr 1fr;
+  align-items: center;
+  justify-content: space-between;
+}
+
+header img.nftea {
+  max-width: 10rem;
+  max-height: 10rem;
+}
+
+header .actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* ==========================================================================
+     Minting Wrapper
+========================================================================== */
+
+main.wrapper {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  grid-template-rows: auto;
+
+  /* background-color: #e6e6e6; */
+}
+
+main div.minter {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: 2fr 10fr;
+}
+
+/* ==========================================================================
+  Minter Options
+========================================================================== */
+
+main div#options {
+  /* padding: 0.5rem; */
+}
+
+legend {
+  margin: 0.25rem 0;
+}
+
+form h3 {
+  font-size: medium;
+  color: hsl(0, 0%, 40%);
+}
+
+div#options form fieldset {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-rows: auto;
+}
+
+form > fieldset > div.grid__wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
+  gap: 0.5rem;
+}
+
+form .card label {
+  position: relative;
+  border: 3px solid transparent;
+  aspect-ratio: 1 / 1;
+  padding: 0.25rem;
+  cursor: pointer;
+  border-radius: 0.5rem;
+  text-align: center;
+  transition: all 0.2s ease-in-out;
+}
+
+form .card label .card__img {
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  object-position: center center;
+  border-radius: 5px;
+  transition: all 200ms ease-in-out;
+}
+
+form .card label .card__content {
+  z-index: 99;
+  background-color: white;
+  box-shadow: 0 0.25rem 1rem rgb(0 0 0 / 0.1);
+  align-self: end;
+  margin: 0.2rem;
+  padding: 0.3rem 0.2rem;
+  border-radius: 4px;
+}
+
+form .card label .card__content h3 {
+  font-size: 0.9rem;
+  color: #333;
+}
+
+form fieldset > div input {
+  display: none;
+}
+
+form fieldset > div title {
+  font-size: 0.9rem;
+  color: #555;
+  padding: 0.3rem 0;
+  transition: all 200ms ease-in-out;
+}
+
+form fieldset > div.grid__wrapper div label:before {
+  content: "✓";
+  position: absolute;
+  width: 1rem;
+  height: 1rem;
+  inset: 0.5rem 0 0 0.5rem;
+  background: hsl(140, 100%, 27%);
+  color: #fff;
+  text-align: center;
+  line-height: 1.1rem;
+  font-size: 0.5rem;
+  font-weight: 600;
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all 200ms ease-in-out;
+  z-index: 99;
+}
+
+form fieldset > div input:checked + label:before {
+  opacity: 1;
+  transform: scale(1);
+}
+
+form fieldset > div input:checked + label .title {
+  color: hsl(140, 100%, 27%);
+}
+
+form fieldset > div input:checked + label {
+  border: 1px solid hsl(140, 100%, 27%);
+}
+
+div#operation {
+  display: grid;
+  align-items: start;
+  justify-content: center;
+  padding-top: 2rem;
+}
+
+div#preview {
+  display: grid;
+  gap: 0.25rem;
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+  top: 0;
+}
+
+
+
+div#preview > #image-box {
+  margin-top: 0.9rem;
+  align-self: flex-start;
+  width: calc(25vw - 1.5rem);
+  height: calc(25vw - 1.5rem);
+  background-color: #c0c0c0;
+  background-image: url(../image/empty_tea_cup.png);
+  background-size: contain;
+  /* border-radius: 0.5rem; */
+  border: 0.1rem solid gray;
+}
+
+/* ==========================================================================
+     Buttons
+     ========================================================================== */
+
+a.button {
+  background-color: hsl(165, 30%, 65%);
+  padding: 0.5rem 0.75rem;
+  font-size: small;
+  cursor: pointer;
+}
+
+a.button:hover {
+  background-color: hsl(165, 40%, 65%);
+  transform: scale(1.1);
+  transition: all 0.2s ease-in-out;
+}
+
+a.button:active {
+  background-color: hsl(165, 20%, 65%);
+  transform: scale(0.5);
+  transition: all 0.1s ease-in-out;
+}
+
+button {
+  background-color: hsl(0, 0%, 30%);
+  color: white;
+  font-family: "RoyalSignage";
+  padding: 0.4rem 1.5rem;
+  font-size: larger;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: hsl(0, 0%, 40%);
+}
+
+button:active {
+  transition: all 0.1s ease-in-out;
+  transform: scale(0.98);
+}
+
+footer {
+  align-self: end;
+  background-color: hsl(165, 30%, 65%);
+  padding: 0.5rem 2.5rem;
+  height: 2rem;
+}
+
+footer ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  justify-content: center;
+  align-items: center;
+}
+
+footer li {
+  display: grid;
+  grid-template-columns: auto;
+  justify-content: center;
+  font-size: small;
+}
+
+a {
+  color: hsl(164, 60%, 24%);
+}
+
+footer a::before {
+  content: "🔗";
+  filter: grayscale(1);
+  font-size: xx-small;
+}
+
+/* ==========================================================================
+     Media Queries for Responsive Design.
+     overrides the primary ('mobile first') styles.
+     ========================================================================== */
+
+@media only screen and (max-width: 38rem) {
+  header nav {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    justify-content: space-between;
+  }
+
+  header nav .titles {
+    display: none;
+  }
+  .titles.mobile-only {
+    display: block;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media print,
+  (-webkit-min-device-pixel-ratio: 1.25),
+  (min-resolution: 1.25dppx),
+  (min-resolution: 120dpi) {
+  /* Style adjustments for high resolution devices */
+}
+
+/* ==========================================================================
+       Print styles.
+       Inlined to avoid the additional HTTP request:
+       https://www.phpied.com/delay-loading-your-print-css/
+       ========================================================================== */
+
+@media print {
+  *,
+  *::before,
+  *::after {
+    background: #fff !important;
+    color: #000 !important;
+    /* Black prints faster */
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  a,
+  a:visited {
+    text-decoration: underline;
+  }
+
+  a[href]::after {
+    content: " (" attr(href) ")";
+  }
+
+  abbr[title]::after {
+    content: " (" attr(title) ")";
+  }
+
+  /*
+       * Don't show links that are fragment identifiers,
+       * or use the `javascript:` pseudo protocol
+       */
+  a[href^="#"]::after,
+  a[href^="javascript:"]::after {
+    content: "";
+  }
+
+  pre {
+    white-space: pre-wrap !important;
+  }
+
+  pre,
+  blockquote {
+    border: 1px solid #999;
+    page-break-inside: avoid;
+  }
+
+  tr,
+  img {
+    page-break-inside: avoid;
+  }
+
+  p,
+  h2,
+  h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2,
+  h3 {
+    page-break-after: avoid;
+  }
+
+
+}
+
+.contributionCounter{
+  pointer-events: none;
+}

@@ -1,0 +1,401 @@
+html {
+  scroll-behavior: smooth !important;
+}
+
+hr {
+  display: none;
+}
+
+h1 {
+  font-size: 3rem;
+}
+
+h1 span {
+  font-size: 2.2rem;
+}
+
+div.container {
+  max-width: 100%;
+  padding: 0;
+}
+
+header {
+  padding-inline: 10rem;
+  display: grid;
+  height: 5rem;
+  background-color: hsl(169, 33%, 66%);
+}
+a {
+  color: hsl(164, 60%, 24%);
+}
+
+header nav {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+header > nav > div.socials > ul {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 1.5rem;
+}
+
+header > nav > div.logo {
+  position: relative;
+  display: grid;
+  justify-content: center;
+  /* width: 10rem; */
+}
+
+header > nav > div.logo > img {
+  position: absolute;
+  aspect-ratio: 1 / 1;
+  width: 12rem;
+  left: 50%;
+  top: 0;
+  transform: translate(-50%, -15%);
+}
+
+/* Body */
+
+main {
+  display: grid;
+  grid-template-rows: auto;
+}
+
+section {
+  display: grid;
+  padding-inline: 10rem;
+}
+
+.story,
+.goal {
+  grid-template-rows: 11fr 1fr;
+}
+
+.story {
+  min-height: calc(100vh - 5rem);
+}
+
+.goal {
+  min-height: 100vh;
+}
+
+.goal li {
+  list-style-type: circle;
+  margin: 15px 0 0 20px;
+}
+
+.story > div.contents,
+.goal > div.contents {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4rem;
+  justify-content: center;
+  align-items: center;
+}
+
+div.contents > .illustration {
+  display: grid;
+}
+
+div.contents > .illustration > img {
+  width: 70%;
+  align-self: center;
+  justify-self: center;
+}
+
+div.contents > .content {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  row-gap: 1rem;
+}
+
+div.contents > .content h1 {
+  margin-bottom: 1rem;
+}
+
+section .navigator {
+  display: grid;
+  justify-content: center;
+  justify-items: center;
+}
+
+section .navigator a {
+  font-size: 2rem;
+  color: #333;
+  animation: move-down 1.5s infinite;
+  height: 3rem;
+  justify-self: end;
+}
+
+@keyframes move-down {
+  80% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(1.25rem);
+    opacity: 0;
+  }
+}
+
+.utility {
+  align-items: center;
+  grid-template-rows: 2fr 8fr 2fr;
+  min-height: 100vh;
+}
+
+.utility h1 {
+  align-self: end;
+}
+
+.utility button {
+  width: 15rem;
+  justify-self: center;
+  align-self: start;
+}
+
+button a {
+  color: white;
+}
+
+.utility > div.contents {
+  margin-inline: -1rem;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2rem;
+}
+
+.card {
+  display: grid;
+  justify-content: center;
+  gap: 1rem;
+  transition: all 0.7s ease-in-out;
+  padding: 1rem;
+  /* cursor: pointer; */
+}
+
+.card h2 {
+  text-align: center;
+}
+
+.card:hover {
+  transform: scale(1.1);
+  background-color: hsl(30, 30%, 65%);
+  border-radius: 1rem;
+}
+
+footer {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-content: center;
+  align-items: start;
+  height: 20rem;
+  overflow: hidden;
+}
+
+footer .wrapper {
+  display: grid;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+footer .socials {
+  display: grid;
+  grid-template-rows: auto;
+  gap: 0.75rem;
+}
+
+footer .socials h2 {
+  text-align: center;
+}
+
+footer .socials .icons ul {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+
+footer .wrapper > .logo {
+  display: grid;
+  justify-content: center;
+}
+
+footer .wrapper > .logo > img {
+  width: 10rem;
+}
+
+footer .wrapper .partners {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+footer .wrapper .partners img {
+  margin: 0.3rem 0;
+  max-width: 12rem;
+  height: 2rem;
+  object-fit: contain;
+}
+
+footer img.globe {
+  position: relative;
+  z-index: 0;
+  width: 35rem;
+  justify-self: start;
+  align-self: start;
+  opacity: 0.4;
+  transform: translateX(-50%);
+}
+img.verification {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  z-index: 1;
+  width: 10rem;
+  opacity: 0.8;
+}
+
+footer img.hermit {
+  z-index: 0;
+  width: 15rem;
+  justify-self: end;
+  align-self: center;
+  opacity: 0.4;
+}
+
+footer a {
+  font-size: large;
+}
+
+footer a::before {
+  content: "";
+}
+
+@media only screen and (max-width: 1600px) {
+  .utility > div.contents {
+    grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .utility button {
+    width: 15rem;
+    justify-self: center;
+    align-self: center;
+  }
+}
+
+@media only screen and (max-width: 1250px) {
+  h1 {
+    margin-top: 5rem;
+  }
+
+  .utility > div.contents {
+    grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .utility button {
+    width: 15rem;
+    justify-self: center;
+    align-self: center;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  h1 {
+    margin-top: 8rem;
+  }
+
+  section {
+    padding-inline: 4rem;
+  }
+  .utility > div.contents {
+    margin-inline: 0;
+    gap: 1rem;
+  }
+
+  .utility button {
+    width: 15rem;
+    justify-self: center;
+    align-self: center;
+  }
+
+  .story > div.contents,
+  .goal > div.contents {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(30rem, 1fr));
+    gap: 4rem;
+    justify-content: center;
+    align-items: center;
+  }
+
+  footer {
+    height: 40rem;
+    overflow: hidden;
+  }
+  footer .wrapper .partners {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  img.verification {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    z-index: 1;
+    width: 10rem;
+    opacity: 0.8;
+  }
+
+  footer img.globe {
+    opacity: 0.2;
+    transform: translateX(-80%);
+  }
+
+  footer img.hermit {
+    opacity: 0.2;
+    transform: translateX(25%);
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  section {
+    padding-inline: 1rem;
+  }
+
+  .utility > div.contents {
+    grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+    gap: 1rem;
+  }
+
+  .story > div.contents,
+  .goal > div.contents {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(30rem, 1fr));
+    gap: 4rem;
+    justify-content: center;
+    align-items: center;
+  }
+
+  img.verification {
+    position: absolute;
+    bottom: 1rem;
+    left: 45%;
+    z-index: 1;
+    width: 10rem;
+    opacity: 0.8;
+  }
+
+  footer {
+    height: 40rem;
+    overflow: hidden;
+  }
+}
