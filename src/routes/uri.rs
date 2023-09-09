@@ -8,8 +8,10 @@ use crate::model::metadata::{
     Attribute,
     AttributeValueOnly,
 };
-use crate::lib::hashtable::HashTable;
+use crate::library::hashtable::HashTable;
 use dotenv::dotenv;
+use serde::Deserialize;
+use std::env;
 use std::str::FromStr;
 use pinata_sdk::{PinataApi, PinByJson};
 use hex;
@@ -20,7 +22,8 @@ use ethers_core::types::{Address, U256};
 use mime;
 // use std::{env};
 // use serde::{Deserialize};
-// use derive_more::{Display};
+// use std::fmt;
+use derive_more::Display;
 use actix_files as fs;
 use actix_web::{
     get,
@@ -46,6 +49,17 @@ pub enum TaskError {
     NftTaken,
 }
 
+// impl fmt::Display for TaskError {
+//     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+//         match self {
+//             TaskError::SignatureFailed => write!(f, "Signature failed"),
+//             TaskError::MetadataFailed => write!(f, "Metadata failed"),
+//             TaskError::NftTaken => write!(f, "NFT already taken"),
+//         }
+//     }
+// }
+
+
 impl ResponseError for TaskError {
     fn error_response(&self) -> HttpResponse {
         HttpResponse::build(self.status_code())
@@ -67,14 +81,14 @@ impl ResponseError for TaskError {
 #[get("/mint")]
 async fn mint(_req: HttpRequest) -> actix_web::Result<fs::NamedFile> {
     let file = fs::NamedFile::open(format!("html/mint.html"))?;
-    let mime_type = mime::Mime::from_str("text/html").expect("Failed to set MimeType");
+    let mime_type = mime::Mime::from_str("text/html").expect("Failed to set MimeType"); ///@dev: handle error
     Ok(file.set_content_type(mime_type))
 }
 
 #[get("/")]
 async fn index(_req: HttpRequest) -> actix_web::Result<fs::NamedFile> {
     let file = fs::NamedFile::open(format!("html/index.html"))?;
-    let mime_type = mime::Mime::from_str("text/html").expect("Failed to set MimeType");
+    let mime_type = mime::Mime::from_str("text/html").expect("Failed to set MimeType"); ///@dev: handle error
     Ok(file.set_content_type(mime_type))
 }
 
@@ -114,7 +128,7 @@ async fn files(req: HttpRequest) -> actix_web::Result<fs::NamedFile> {
         "mp4" => "video/mp4",
         _ => "application/octet-stream",
     };
-    let mime_type = mime::Mime::from_str(content_type).expect("Failed to set MimeType");
+    let mime_type = mime::Mime::from_str(content_type).expect("Failed to set MimeType"); ///@dev: handle error
     Ok(file.set_content_type(mime_type))
 }
 
@@ -126,7 +140,7 @@ pub async fn create_uri(
     let combination = request.combination.clone();
 
      let mut hashtable: HashTable<String> = HashTable::new(365, "hashtable.bin");
-     let key = hashtable.insert(combination.clone());
+     let key = hashtable.insert(combination.clone()); //@backup prev. line: combination.clone()
 
     let response = if key < 365 {
         let dynamic_attributes: HashTable<Attribute> = HashTable::new(365, "attributes.bin");
@@ -219,8 +233,8 @@ pub async fn create_uri(
 
         // Load env variables
         dotenv().ok();
-        let pinata_api_key = env::var("PINATA_API_KEY").expect("PINATA_API_KEY must be set in the .env file");
-        let pinata_secret_api_key = env::var("PINATA_SECRET_API_KEY").expect("PINATA_SECRET_API_KEY must be set in the .env file");
+        let pinata_api_key = env::var("PINATA_API_KEY").expect("PINATA_API_KEY must be set in the .env file"); ///@dev: handle the error case  
+        let pinata_secret_api_key = env::var("PINATA_SECRET_API_KEY").expect("PINATA_SECRET_API_KEY must be set in the .env file"); ///@dev: handle the error case  
         
         // IPFS response
         let pinata_api = match PinataApi::new(pinata_api_key, pinata_secret_api_key) {
@@ -231,14 +245,14 @@ pub async fn create_uri(
             }
         };
 
-        let result = pinata_api.pin_json(PinByJson::new(raw_metadata.clone())).await;
+        let result = pinata_api.pin_json(PinByJson::new(&raw_metadata)).await; //@dev - initially raw_metadata.clone()
         if let Ok(pinned_object) = result {
             let hash = pinned_object.ipfs_hash;
             let ipfs_uri = format!(
                 "ipfs://{}", hash 
             );
 
-            let private_key = env::var("PRIVATE_KEY").expect("PRIVATE_KEY must be set in the .env file");
+            let private_key = env::var("PRIVATE_KEY").expect("PRIVATE_KEY must be set in the .env file"); ///@dev: handle the error case  
             let signature = match sign_message(&private_key, &ipfs_uri).await {
                 Ok(sig) => sig,
                 Err(_) => {
@@ -270,10 +284,10 @@ pub async fn create_uri(
 
 
 async fn sign_message(hex_private_key: &str, uri: &str) -> Result<Vec<u8>, Box<dyn std::error::Error>> {
-    let wallet = hex_private_key.trim_start_matches("0x").parse::<LocalWallet>().expect("wallet wasnt created");
+    let wallet = hex_private_key.trim_start_matches("0x").parse::<LocalWallet>().expect("wallet wasnt created"); ///@dev: handle error case
     // println!("wallet address is: {}", wallet.address());
 
-    let verifier = "0x49dbfb94314CF76b2Fe990e9dc5E59AF7b68E4b1".parse::<Address>().expect("failed to parse verifier address");
+    let verifier = "0x49dbfb94314CF76b2Fe990e9dc5E59AF7b68E4b1".parse::<Address>().expect("failed to parse verifier address");  ///@dev: handle error case
     let project_id = U256::from(1u64);
     let template_id = U256::from(1u64);
     let collection_id = U256::from(1u64);
@@ -288,7 +302,7 @@ async fn sign_message(hex_private_key: &str, uri: &str) -> Result<Vec<u8>, Box<d
     ]);
 
     let hashed_data = utils::keccak256(hash_data.as_slice());
-    let signature = wallet.sign_message(hashed_data).await.expect("signing the message failed!");
+    let signature = wallet.sign_message(hashed_data).await.expect("signing the message failed!");  ///@dev: handle error case
     let signature_hex = format!("0x{}", signature);
     hex::decode(signature_hex.trim_start_matches("0x")).map_err(|e| e.into())
 }

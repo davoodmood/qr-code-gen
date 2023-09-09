@@ -1,11 +1,15 @@
 mod routes;
 mod model;
-mod lib;
+mod library;
+mod qr_code;
+mod errors;
 
+use actix_rt::System;
+use mongodb::{options::ClientOptions, Client};
 use routes::{uri::{create_uri, mint, index, files}, qr::api_config};
-use lib::attributes::populate_attributes;
+use library::attributes::populate_attributes;
 use model::metadata::Attribute;
-use crate::lib::hashtable::HashTable;
+use library::hashtable::HashTable;
 use actix_web::HttpResponse;
 use actix_web::{web, http, HttpServer, App, middleware::{DefaultHeaders, Logger}};
 use actix_cors::Cors;
@@ -40,32 +44,34 @@ async fn main() -> std::io::Result<()> {
         let dynamic_attribute_array = populate_attributes(&mut dynamic_attribute_array_placeholder);
         dynamic_attributes.fill(dynamic_attribute_array);
     }
-
-    HttpServer::new( move || {
-        let logger = Logger::default();
-        App::new()
-        .data(client.clone())
-        .configure(api_config())
-        .wrap(logger)
-        .wrap(DefaultHeaders::new().add(("Access-Control-Allow-Origin", "*")))
-        .wrap(Cors::default()
-        .allow_any_origin()
-        .allowed_methods(vec!["POST", "GET", "OPTIONS"])
-        .allowed_headers(vec![
-            http::header::AUTHORIZATION,
-            http::header::ACCEPT,
-            http::header::CONTENT_TYPE,
-        ])
-        .allowed_header(http::header::CONTENT_TYPE)
-        .max_age(3600)
-        .supports_credentials())
-        .route("/health_check", web::get().to(|| HttpResponse::Ok()))
-        .service(create_uri)
-        .service(index)
-        .service(mint)
-        .service(files)
+    
+    System::new().block_on(async {
+        HttpServer::new(move || {
+            let logger = Logger::default();
+            App::new()
+            .app_data(client.clone())
+            .configure(api_config())
+            .wrap(logger)
+            .wrap(DefaultHeaders::new().add(("Access-Control-Allow-Origin", "*")))
+            .wrap(Cors::default()
+            .allow_any_origin()
+            .allowed_methods(vec!["POST", "GET", "OPTIONS"])
+            .allowed_headers(vec![
+                http::header::AUTHORIZATION,
+                http::header::ACCEPT,
+                http::header::CONTENT_TYPE,
+            ])
+            .allowed_header(http::header::CONTENT_TYPE)
+            .max_age(3600)
+            .supports_credentials())
+            .route("/health_check", web::get().to(|| HttpResponse::Ok()))
+            .service(create_uri)
+            .service(index)
+            .service(mint)
+            .service(files)
+        })
+        .bind(("127.0.0.1", 4000))?
+        .run()
+        .await
     })
-    .bind(("127.0.0.1", 4000))?
-    .run()
-    .await
 }

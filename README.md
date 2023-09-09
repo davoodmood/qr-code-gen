@@ -1,4 +1,4 @@
-# WebServer Using Quark API
+# QR Code WebServer
 A Rust API implementation for QR Codes.
 
 ## About
