@@ -5,6 +5,11 @@ use qrcodegen::QrCode;
 use crate::errors::CustomError;
 use crate::qr_code::generator;
 
+#[derive(serde::Deserialize)] // Deserialize the JSON data into this struct
+struct JsonData {
+    data: String,
+}
+
 pub(crate) fn api_config() -> impl FnOnce(&mut web::ServiceConfig) {
     move |cfg: &mut web::ServiceConfig| {
         // Add your service configurations here
@@ -20,8 +25,13 @@ pub(crate) fn api_config() -> impl FnOnce(&mut web::ServiceConfig) {
 }
 
 
-async fn generate_qr_code(data: web::Json<String>, db: web::Data<Client>) -> Result<HttpResponse, CustomError> {
-    let qr_code_content = match generator::generate_qr_code(&data) {
+async fn generate_qr_code(data: web::Json<JsonData>, db: web::Data<Client>) -> Result<HttpResponse, CustomError> {
+    let json_string= &data.data;
+
+	// Log the received JSON string for debugging
+    log::debug!("Received JSON data: {}", json_string);
+	
+	let qr_code_content = match generator::generate_qr_code(json_string) {
         Ok(qr_code_content) => qr_code_content,
         Err(_) => return Err(CustomError.into()), // Handle the error and convert it to CustomError
     };
@@ -30,8 +40,11 @@ async fn generate_qr_code(data: web::Json<String>, db: web::Data<Client>) -> Res
     let timestamp = Utc::now();
 
     let coll = db.database("qrcode_tracking").collection("tracking");
+
+	let cloned_json_string = json_string.clone();
+
     let doc = doc! {
-        "data": data.0.clone(),
+        "data": cloned_json_string,
         "timestamp": timestamp.to_string()
     };
 
@@ -41,9 +54,6 @@ async fn generate_qr_code(data: web::Json<String>, db: web::Data<Client>) -> Res
         Ok(_) => Ok(HttpResponse::Ok().body(image_data)),
         Err(_) => Err(CustomError.into()),
     }
-
-
-    // Ok(HttpResponse::Ok().body(image_data))
 }
 
 
