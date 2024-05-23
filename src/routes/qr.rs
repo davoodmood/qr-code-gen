@@ -11,7 +11,7 @@ struct JsonData {
 }
 
 pub(crate) fn api_config() -> impl FnOnce(&mut web::ServiceConfig) {
-    move |cfg: &mut web::ServiceConfig| {
+    move | cfg: &mut web::ServiceConfig| {
         // Add your service configurations here
 
         // Create a scope for "/api/v1"

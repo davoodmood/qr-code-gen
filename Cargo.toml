@@ -31,7 +31,7 @@ pinata-sdk = "1.1.0"
 ethers = { version = "1.0.0", features = ["ws", "legacy"] }
 ethers-core = "1.0.2"
 ethers-signers = "1.0.2"
-env_logger = "0.8"
+env_logger = "0.11.3"
 strum_macros = "^0.24"
 uuid = { version = "^0.8", features = ["v4"] }
 strum = { version = "^0.24", features = ["derive"] }
