@@ -18,7 +18,7 @@ This project is a QR code generator service built with Rust using the Actix-Web 
 1. **Clone the repository**:
 
     ```sh
-    git clone https://github.com/yourusername/qrcode-service.git
+    git clone https://github.com/davoodmood/qr-code-gen.git
     cd qrcode-service
     ```
 
